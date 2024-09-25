@@ -8,13 +8,37 @@
 import Combine
 import SwiftUI
 
-@Observable
-class WorkoutsModel {
-  var workouts: [Workout] = []
-  var path: [WorkoutsPage.SubPages] = []
+/// Keeps a map of Calendar component .weekday values to the number of days to subtract to reach
+/// the most recent Monday.
+private let dayTranslation = [1: -6, 2: 0, 3: -1, 4: -2, 5: -3, 6: -4, 7: -5]
+
+class WorkoutsModel: ObservableObject {
+  @Published var workouts: [Workout] = []
+  @Published var path: [WorkoutsPage.SubPages] = []
+  @Published var selectedStartOfWeek: Date
   private var workoutSubscriptionHandles: Set<AnyCancellable> = []
 
-  func load(date: Date) {
+  init() {
+    let dayOfWeek = Calendar.current.component(.weekday, from: Date.now)
+    selectedStartOfWeek = Calendar.current.date(
+      byAdding: .day, value: dayTranslation[dayOfWeek]!, to: Date.now)!
+    load()
+  }
+
+  func nextWeek() {
+    selectedStartOfWeek = Calendar.current.date(
+      byAdding: .day, value: 7, to: selectedStartOfWeek)!
+    load()
+  }
+
+  func previousWeek() {
+    selectedStartOfWeek = Calendar.current.date(
+      byAdding: .day, value: -7, to: selectedStartOfWeek)!
+    load()
+  }
+
+  private func load() {
+    print("load(): \(selectedStartOfWeek)")
     // Cancel any prior subscriptions and remove prior handles.
     workoutSubscriptionHandles.forEach({ handle in handle.cancel() })
     workoutSubscriptionHandles.removeAll()
@@ -22,8 +46,8 @@ class WorkoutsModel {
     client.subscribe(
       name: "workouts:getInRange",
       args: [
-        "startDate": date.localIso8601DateFormat(),
-        "endDate": Calendar.current.date(byAdding: .day, value: 6, to: date)!
+        "startDate": selectedStartOfWeek.localIso8601DateFormat(),
+        "endDate": Calendar.current.date(byAdding: .day, value: 6, to: selectedStartOfWeek)!
           .localIso8601DateFormat(),
       ]
     )
