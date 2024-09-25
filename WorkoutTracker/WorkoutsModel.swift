@@ -11,6 +11,7 @@ import SwiftUI
 @Observable
 class WorkoutsModel {
   var workouts: [Workout] = []
+  var path: [WorkoutsPage.SubPages] = []
   private var workoutSubscriptionHandles: Set<AnyCancellable> = []
 
   func load(date: Date) {
@@ -30,6 +31,10 @@ class WorkoutsModel {
     .receive(on: DispatchQueue.main)
     .assign(to: \.workouts, on: self)
     .store(in: &workoutSubscriptionHandles)
+  }
+
+  func openEditor() {
+    path.append(.workoutEditor)
   }
 }
 

@@ -18,7 +18,6 @@ struct WorkoutsPage: View {
 
   @State var selectedStartOfWeek: Date
   @State var workoutsModel = WorkoutsModel()
-  @State var pages: [SubPages] = []
 
   init() {
     let dayOfWeek = Calendar.current.component(.weekday, from: Date.now)
@@ -27,7 +26,7 @@ struct WorkoutsPage: View {
   }
 
   var body: some View {
-    NavigationStack(path: $pages) {
+    NavigationStack(path: $workoutsModel.path) {
       VStack {
         Text("Start of week: \(selectedStartOfWeek.localIso8601DateFormat())")
         HStack {
@@ -45,7 +44,7 @@ struct WorkoutsPage: View {
             Text("\(workout.activity.rawValue)")
           }
         }
-        Button(action: { pages.append(.workoutEditor) }) {
+        Button(action: workoutsModel.openEditor) {
           Text("Add Workout")
         }
       }.onAppear {
