@@ -6,19 +6,28 @@
 //
 
 import ConvexMobile
+import Foundation
 
 struct Workout: Identifiable, Decodable {
   let id: String
-  let date: String
+  let _date: String
   let activity: Activity
   @OptionalConvexInt
   var duration: Int?
 
   enum CodingKeys: String, CodingKey {
     case id = "_id"
-    case date
+    case _date = "date"
     case activity
     case duration
+  }
+}
+
+extension Workout {
+  var date: Date {
+    let dateFormatter = ISO8601DateFormatter()
+    dateFormatter.formatOptions = [.withFullDate]
+    return dateFormatter.date(from: self._date)!
   }
 }
 

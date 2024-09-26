@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+extension Day {
+  var firstLetter: String {
+    guard let firstLetter = "\(self)".uppercased().first else {
+      fatalError()
+    }
+    return "\(firstLetter)"
+  }
+}
+
 struct WorkoutsPage: View {
   enum SubPages {
     case workoutEditor
@@ -17,14 +26,48 @@ struct WorkoutsPage: View {
   var body: some View {
     NavigationStack(path: $workoutsModel.path) {
       VStack {
-        Text("Start of week: \(workoutsModel.selectedStartOfWeek.localIso8601DateFormat())")
         HStack {
-          Button(action: workoutsModel.previousWeek) { Text("Previous week") }
-          Button(action: workoutsModel.nextWeek) { Text("Next week") }
+          Spacer()
+          Button(action: workoutsModel.previousWeek) {
+            Image(systemName: "arrowshape.backward")
+          }
+          Spacer()
+          Text(
+            "Week of \(workoutsModel.selectedStartOfWeek.formatted(date: .abbreviated, time: .omitted))"
+          )
+          Spacer()
+          Button(action: workoutsModel.nextWeek) {
+            Image(systemName: "arrowshape.forward")
+          }
+          Spacer()
+
+        }
+        HStack {
+          ForEach(Array(Day.allCases)) { day in
+            Spacer()
+            VStack {
+              Text(day.firstLetter)
+              if workoutsModel.workoutDays.contains(day) {
+                Image(systemName: "circle.inset.filled")
+              } else {
+                Image(systemName: "circle.dotted")
+              }
+            }
+          }
+          Spacer()
         }
         List {
           ForEach(workoutsModel.workouts) { workout in
-            Text("\(workout.activity.rawValue)")
+            VStack(alignment: .leading) {
+              Text(workout.date.formatted(.dateTime.month().day()))
+              HStack {
+                Text("\(workout.activity.rawValue)")
+                Spacer()
+                if let duration = workout.duration {
+                  Text("\(duration) min\(duration > 1 ? "s" : "")")
+                }
+              }
+            }
           }
         }
         Button(action: workoutsModel.openEditor) {
@@ -34,7 +77,9 @@ struct WorkoutsPage: View {
         for: SubPages.self,
         destination: { _ in
           WorkoutEditorPage()
-        })
+        }
+      )
+      .navigationTitle("Workouts")
     }
   }
 }
