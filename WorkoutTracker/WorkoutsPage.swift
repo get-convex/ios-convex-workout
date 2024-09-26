@@ -26,50 +26,9 @@ struct WorkoutsPage: View {
   var body: some View {
     NavigationStack(path: $workoutsModel.path) {
       VStack {
-        HStack {
-          Spacer()
-          Button(action: workoutsModel.previousWeek) {
-            Image(systemName: "arrowshape.backward")
-          }
-          Spacer()
-          Text(
-            "Week of \(workoutsModel.selectedStartOfWeek.formatted(date: .abbreviated, time: .omitted))"
-          )
-          Spacer()
-          Button(action: workoutsModel.nextWeek) {
-            Image(systemName: "arrowshape.forward")
-          }
-          Spacer()
-
-        }
-        HStack {
-          ForEach(Array(Day.allCases)) { day in
-            Spacer()
-            VStack {
-              Text(day.firstLetter)
-              if workoutsModel.workoutDays.contains(day) {
-                Image(systemName: "circle.inset.filled")
-              } else {
-                Image(systemName: "circle.dotted")
-              }
-            }
-          }
-          Spacer()
-        }
-        List {
-          ForEach(workoutsModel.workouts) { workout in
-            VStack(alignment: .leading) {
-              Text(workout.date.formatted(.dateTime.month().day()))
-              HStack {
-                Text("\(workout.activity.rawValue)")
-                Spacer()
-                if let duration = workout.duration {
-                  Text("\(duration) min\(duration > 1 ? "s" : "")")
-                }
-              }
-            }
-          }
-        }
+        WorkoutDateSelector()
+        WorkoutCalendar()
+        WorkoutList()
         Button(action: workoutsModel.openEditor) {
           Text("Add Workout")
         }
@@ -80,6 +39,70 @@ struct WorkoutsPage: View {
         }
       )
       .navigationTitle("Workouts")
+    }.environmentObject(workoutsModel)
+  }
+}
+
+struct WorkoutDateSelector: View {
+  @EnvironmentObject var workoutsModel: WorkoutsModel
+
+  var body: some View {
+    HStack {
+      Spacer()
+      Button(action: workoutsModel.previousWeek) {
+        Image(systemName: "arrowshape.backward")
+      }
+      Spacer()
+      Text(
+        "Week of \(workoutsModel.selectedStartOfWeek.formatted(date: .abbreviated, time: .omitted))"
+      )
+      Spacer()
+      Button(action: workoutsModel.nextWeek) {
+        Image(systemName: "arrowshape.forward")
+      }
+      Spacer()
+    }
+  }
+}
+
+struct WorkoutCalendar: View {
+  @EnvironmentObject var workoutsModel: WorkoutsModel
+
+  var body: some View {
+    HStack {
+      ForEach(Array(Day.allCases)) { day in
+        Spacer()
+        VStack {
+          Text(day.firstLetter)
+          if workoutsModel.workoutDays.contains(day) {
+            Image(systemName: "circle.inset.filled")
+          } else {
+            Image(systemName: "circle.dotted")
+          }
+        }
+      }
+      Spacer()
+    }
+  }
+}
+
+struct WorkoutList: View {
+  @EnvironmentObject var workoutsModel: WorkoutsModel
+
+  var body: some View {
+    List {
+      ForEach(workoutsModel.workouts) { workout in
+        VStack(alignment: .leading) {
+          Text(workout.date.formatted(.dateTime.month().day()))
+          HStack {
+            Text("\(workout.activity.rawValue)")
+            Spacer()
+            if let duration = workout.duration {
+              Text("\(duration) min\(duration > 1 ? "s" : "")")
+            }
+          }
+        }
+      }
     }
   }
 }
