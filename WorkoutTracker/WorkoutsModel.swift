@@ -16,45 +16,37 @@ class WorkoutsModel: ObservableObject {
   @Published var workouts: [Workout] = []
   @Published var path: [WorkoutsPage.SubPages] = []
   @Published var selectedStartOfWeek: Date
-  private var workoutSubscriptionHandles: Set<AnyCancellable> = []
 
   init() {
     let dayOfWeek = Calendar.current.component(.weekday, from: Date.now)
     selectedStartOfWeek = Calendar.current.date(
       byAdding: .day, value: dayTranslation[dayOfWeek]!, to: Date.now)!
-    load()
+    $selectedStartOfWeek
+      .print("week")
+      .map({ week in
+        client.subscribe(
+          name: "workouts:getInRange",
+          args: [
+            "startDate": week.localIso8601DateFormat(),
+            "endDate": Calendar.current.date(byAdding: .day, value: 6, to: week)!
+              .localIso8601DateFormat(),
+          ]
+        )
+        .print("subscription: \(week)")
+        .replaceError(with: [])
+        .receive(on: DispatchQueue.main)
+        .eraseToAnyPublisher()
+      }).switchToLatest().assign(to: &$workouts)
   }
 
   func nextWeek() {
     selectedStartOfWeek = Calendar.current.date(
       byAdding: .day, value: 7, to: selectedStartOfWeek)!
-    load()
   }
 
   func previousWeek() {
     selectedStartOfWeek = Calendar.current.date(
       byAdding: .day, value: -7, to: selectedStartOfWeek)!
-    load()
-  }
-
-  private func load() {
-    print("load(): \(selectedStartOfWeek)")
-    // Cancel any prior subscriptions and remove prior handles.
-    workoutSubscriptionHandles.forEach({ handle in handle.cancel() })
-    workoutSubscriptionHandles.removeAll()
-
-    client.subscribe(
-      name: "workouts:getInRange",
-      args: [
-        "startDate": selectedStartOfWeek.localIso8601DateFormat(),
-        "endDate": Calendar.current.date(byAdding: .day, value: 6, to: selectedStartOfWeek)!
-          .localIso8601DateFormat(),
-      ]
-    )
-    .replaceError(with: [])
-    .receive(on: DispatchQueue.main)
-    .assign(to: \.workouts, on: self)
-    .store(in: &workoutSubscriptionHandles)
   }
 
   func openEditor() {
