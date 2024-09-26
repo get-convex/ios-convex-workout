@@ -8,6 +8,12 @@
 import ConvexMobile
 import Foundation
 
+private var dateFormatter: ISO8601DateFormatter {
+  let dateFormatter = ISO8601DateFormatter()
+  dateFormatter.formatOptions = [.withFullDate]
+  return dateFormatter
+}
+
 struct Workout: Identifiable, Decodable {
   let id: String
   let _date: String
@@ -25,9 +31,7 @@ struct Workout: Identifiable, Decodable {
 
 extension Workout {
   var date: Date {
-    let dateFormatter = ISO8601DateFormatter()
-    dateFormatter.formatOptions = [.withFullDate]
-    return dateFormatter.date(from: self._date)!
+    dateFormatter.date(from: self._date)!
   }
 }
 
