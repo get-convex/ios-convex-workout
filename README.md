@@ -1,5 +1,7 @@
 # ios-convex-workout
 
+WORK IN PROGRESS
+
 Sample iOS Convex app using SwiftUI
 
 New to Convex? [Take the tour](https://docs.convex.dev/get-started).
