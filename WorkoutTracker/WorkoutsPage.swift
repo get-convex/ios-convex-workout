@@ -16,6 +16,13 @@ extension Day {
   }
 }
 
+private var abbrevDateFormatter: DateFormatter {
+  let dateFormatter = DateFormatter()
+  dateFormatter.setLocalizedDateFormatFromTemplate("MMM d")
+  dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+  return dateFormatter
+}
+
 struct WorkoutsPage: View {
   enum SubPages {
     case workoutEditor
@@ -93,7 +100,7 @@ struct WorkoutList: View {
     List {
       ForEach(workoutsModel.workouts) { workout in
         VStack(alignment: .leading) {
-          Text(workout.date.formatted(.dateTime.month().day()))
+          Text(abbrevDateFormatter.string(from: workout.date))
           HStack {
             Text("\(workout.activity.rawValue)")
             Spacer()

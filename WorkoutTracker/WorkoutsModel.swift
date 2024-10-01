@@ -26,6 +26,12 @@ enum Day: CaseIterable, Identifiable {
   case sunday
 }
 
+var calendar: Calendar {
+  var calendar = Calendar.current
+  calendar.timeZone = TimeZone(abbreviation: "UTC")!
+  return calendar
+}
+
 class WorkoutsModel: ObservableObject {
   @Published var workouts: [Workout] = []
   @Published var path: [WorkoutsPage.SubPages] = []
@@ -34,7 +40,7 @@ class WorkoutsModel: ObservableObject {
 
   init() {
     let dayOfWeek = Calendar.current.component(.weekday, from: Date.now)
-    selectedStartOfWeek = Calendar.current.date(
+    selectedStartOfWeek = calendar.date(
       byAdding: .day, value: dayTranslation[dayOfWeek]!, to: Date.now)!
     $selectedStartOfWeek
       .print("week")
@@ -43,7 +49,7 @@ class WorkoutsModel: ObservableObject {
           name: "workouts:getInRange",
           args: [
             "startDate": week.localIso8601DateFormat(),
-            "endDate": Calendar.current.date(byAdding: .day, value: 6, to: week)!
+            "endDate": calendar.date(byAdding: .day, value: 6, to: week)!
               .localIso8601DateFormat(),
           ]
         )
@@ -64,12 +70,12 @@ class WorkoutsModel: ObservableObject {
   }
 
   func nextWeek() {
-    selectedStartOfWeek = Calendar.current.date(
+    selectedStartOfWeek = calendar.date(
       byAdding: .day, value: 7, to: selectedStartOfWeek)!
   }
 
   func previousWeek() {
-    selectedStartOfWeek = Calendar.current.date(
+    selectedStartOfWeek = calendar.date(
       byAdding: .day, value: -7, to: selectedStartOfWeek)!
   }
 
@@ -86,7 +92,7 @@ extension Date {
 
 extension Workout {
   var day: Day {
-    Calendar.current.component(.weekday, from: self.date).toDay()
+    calendar.component(.weekday, from: self.date).toDay()
   }
 }
 

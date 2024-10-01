@@ -11,6 +11,7 @@ import Foundation
 private var dateFormatter: ISO8601DateFormatter {
   let dateFormatter = ISO8601DateFormatter()
   dateFormatter.formatOptions = [.withFullDate]
+  dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
   return dateFormatter
 }
 
