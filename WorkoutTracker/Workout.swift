@@ -14,7 +14,7 @@ private var dateFormatter: ISO8601DateFormatter {
   return dateFormatter
 }
 
-struct Workout: Identifiable, Decodable {
+struct Workout: Identifiable, Equatable, Decodable {
   let id: String
   let _date: String
   let activity: Activity

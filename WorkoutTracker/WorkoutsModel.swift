@@ -47,6 +47,7 @@ class WorkoutsModel: ObservableObject {
               .localIso8601DateFormat(),
           ]
         )
+        .removeDuplicates()
         .print("subscription: \(week)")
         .replaceError(with: [])
         .receive(on: DispatchQueue.main)
