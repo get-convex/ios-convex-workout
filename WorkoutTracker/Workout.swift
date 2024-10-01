@@ -35,7 +35,11 @@ extension Workout {
   }
 }
 
-enum Activity: String, Codable {
+enum Activity: String, Identifiable, CaseIterable, Codable {
+  var id: Self {
+    self
+  }
+
   case running = "Running"
   case lifting = "Lifting"
   case walking = "Walking"
