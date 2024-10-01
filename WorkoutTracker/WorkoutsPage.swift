@@ -39,7 +39,7 @@ struct WorkoutsPage: View {
         WorkoutList()
         Button(action: navigationModel.openEditor) {
           Text("Add Workout")
-        }
+        }.padding()
       }.navigationDestination(
         for: SubPages.self,
         destination: { _ in
@@ -60,7 +60,7 @@ struct WorkoutDateSelector: View {
       Spacer()
       Button(action: workoutsModel.previousWeek) {
         Image(systemName: "arrowshape.backward")
-      }
+      }.padding()
       Spacer()
       Text(
         "Week of \(workoutsModel.selectedStartOfWeek.formatted(date: .abbreviated, time: .omitted))"
@@ -68,7 +68,7 @@ struct WorkoutDateSelector: View {
       Spacer()
       Button(action: workoutsModel.nextWeek) {
         Image(systemName: "arrowshape.forward")
-      }
+      }.padding()
       Spacer()
     }
   }

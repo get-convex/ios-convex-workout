@@ -32,7 +32,7 @@ struct WorkoutEditorPage: View {
       }
       Button(action: { pendingWorkout.save(onSuccess: navigationModel.closeEditor) }) {
         Text("Save")
-      }.disabled(!pendingWorkout.canSave)
+      }.disabled(!pendingWorkout.canSave).padding()
     }.navigationTitle("New workout")
   }
 }
