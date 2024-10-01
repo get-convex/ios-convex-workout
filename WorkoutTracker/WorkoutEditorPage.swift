@@ -10,6 +10,7 @@ import SwiftUI
 struct WorkoutEditorPage: View {
 
   @StateObject var pendingWorkout = PendingWorkoutModel()
+  @EnvironmentObject var navigationModel: NavigationModel
 
   var body: some View {
     VStack {
@@ -29,7 +30,7 @@ struct WorkoutEditorPage: View {
         }
         TextField("Duration", text: $pendingWorkout.rawDuration).keyboardType(.decimalPad)
       }
-      Button(action: pendingWorkout.save) {
+      Button(action: { pendingWorkout.save(onSuccess: navigationModel.closeEditor) }) {
         Text("Save")
       }.disabled(!pendingWorkout.canSave)
     }.navigationTitle("New workout")

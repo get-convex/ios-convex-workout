@@ -34,7 +34,6 @@ var calendar: Calendar {
 
 class WorkoutsModel: ObservableObject {
   @Published var workouts: [Workout] = []
-  @Published var path: [WorkoutsPage.SubPages] = []
   @Published var selectedStartOfWeek: Date
   @Published var workoutDays: Set<Day> = []
 
@@ -77,10 +76,6 @@ class WorkoutsModel: ObservableObject {
   func previousWeek() {
     selectedStartOfWeek = calendar.date(
       byAdding: .day, value: -7, to: selectedStartOfWeek)!
-  }
-
-  func openEditor() {
-    path.append(.workoutEditor)
   }
 }
 

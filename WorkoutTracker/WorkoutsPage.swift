@@ -29,14 +29,15 @@ struct WorkoutsPage: View {
   }
 
   @StateObject var workoutsModel = WorkoutsModel()
+  @StateObject var navigationModel = NavigationModel()
 
   var body: some View {
-    NavigationStack(path: $workoutsModel.path) {
+    NavigationStack(path: $navigationModel.path) {
       VStack {
         WorkoutDateSelector()
         WorkoutCalendar()
         WorkoutList()
-        Button(action: workoutsModel.openEditor) {
+        Button(action: navigationModel.openEditor) {
           Text("Add Workout")
         }
       }.navigationDestination(
@@ -47,6 +48,7 @@ struct WorkoutsPage: View {
       )
       .navigationTitle("Workouts")
     }.environmentObject(workoutsModel)
+      .environmentObject(navigationModel)
   }
 }
 

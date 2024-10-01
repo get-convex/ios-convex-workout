@@ -20,7 +20,7 @@ class PendingWorkoutModel: ObservableObject {
       .assign(to: &$canSave)
   }
 
-  func save() {
+  func save(onSuccess: @escaping () -> Void) {
     let duration: Int? =
       switch rawDuration.trimmingCharacters(in: .whitespacesAndNewlines) {
       case "": nil
@@ -33,7 +33,9 @@ class PendingWorkoutModel: ObservableObject {
       args["duration"] = duration
     }
     Task {
+      @MainActor in
       try await client.mutation(name: "workouts:store", args: args)
+      onSuccess()
     }
   }
 }
