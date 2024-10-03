@@ -57,10 +57,9 @@ struct WorkoutDateSelector: View {
 
   var body: some View {
     HStack {
-      Spacer()
       Button(action: workoutsModel.previousWeek) {
         Image(systemName: "arrowshape.backward")
-      }.padding()
+      }.buttonStyle(.borderless).padding(.horizontal, 32)
       Spacer()
       Text(
         "Week of \(workoutsModel.selectedStartOfWeek.formatted(date: .abbreviated, time: .omitted))"
@@ -68,9 +67,8 @@ struct WorkoutDateSelector: View {
       Spacer()
       Button(action: workoutsModel.nextWeek) {
         Image(systemName: "arrowshape.forward")
-      }.padding()
-      Spacer()
-    }
+      }.buttonStyle(.borderless).padding(.horizontal, 32)
+    }.padding(.vertical)
   }
 }
 
@@ -92,6 +90,7 @@ struct WorkoutCalendar: View {
       }
       Spacer()
     }
+    Spacer()
   }
 }
 
