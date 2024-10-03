@@ -45,8 +45,8 @@ class WorkoutsModel: ObservableObject {
       .print("week")
       .map({ week in
         client.subscribe(
-          name: "workouts:getInRange",
-          args: [
+          to: "workouts:getInRange",
+          with: [
             "startDate": week.localIso8601DateFormat(),
             "endDate": calendar.date(byAdding: .day, value: 6, to: week)!
               .localIso8601DateFormat(),

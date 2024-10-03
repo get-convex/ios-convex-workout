@@ -34,7 +34,7 @@ class PendingWorkoutModel: ObservableObject {
     }
     Task {
       @MainActor in
-      try await client.mutation(name: "workouts:store", args: args)
+      try await client.mutation("workouts:store", with: args)
       onSuccess()
     }
   }
