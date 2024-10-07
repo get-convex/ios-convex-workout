@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LandingPage: View {
-  @State var authModel = AuthModel()
+  @StateObject var authModel = AuthModel()
 
   var body: some View {
     Color.workoutBackground

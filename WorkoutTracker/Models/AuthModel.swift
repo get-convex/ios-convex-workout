@@ -10,16 +10,14 @@ import Combine
 import ConvexMobile
 import SwiftUI
 
-@Observable
-class AuthModel {
-  var authState: AuthState<Credentials> = .unauthenticated
+class AuthModel: ObservableObject {
+  @Published var authState: AuthState<Credentials> = .loading
   private var cancellationHandle: Set<AnyCancellable> = []
 
   init() {
     client.authState.replaceError(with: .unauthenticated)
       .receive(on: DispatchQueue.main)
-      .assign(to: \.authState, on: self)
-      .store(in: &cancellationHandle)
+      .assign(to: &$authState)
     Task {
       await client.loginFromCache()
     }
