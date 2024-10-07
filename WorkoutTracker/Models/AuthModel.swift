@@ -12,7 +12,6 @@ import SwiftUI
 
 class AuthModel: ObservableObject {
   @Published var authState: AuthState<Credentials> = .loading
-  private var cancellationHandle: Set<AnyCancellable> = []
 
   init() {
     client.authState.replaceError(with: .unauthenticated)
