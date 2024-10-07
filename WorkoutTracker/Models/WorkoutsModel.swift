@@ -8,30 +8,6 @@
 import Combine
 import SwiftUI
 
-/// Keeps a map of Calendar component .weekday values to the number of days to subtract to reach
-/// the most recent Monday.
-private let dayTranslation = [1: -6, 2: 0, 3: -1, 4: -2, 5: -3, 6: -4, 7: -5]
-
-enum Day: CaseIterable, Identifiable {
-  var id: Self {
-    self
-  }
-
-  case monday
-  case tuesday
-  case wednesday
-  case thursday
-  case friday
-  case saturday
-  case sunday
-}
-
-var calendar: Calendar {
-  var calendar = Calendar.current
-  calendar.timeZone = TimeZone(abbreviation: "UTC")!
-  return calendar
-}
-
 class WorkoutsModel: ObservableObject {
   @Published var workouts: [Workout] = []
   @Published var selectedStartOfWeek: Date
@@ -41,8 +17,8 @@ class WorkoutsModel: ObservableObject {
     let dayOfWeek = Calendar.current.component(.weekday, from: Date.now)
     selectedStartOfWeek = calendar.date(
       byAdding: .day, value: dayTranslation[dayOfWeek]!, to: Date.now)!
+
     $selectedStartOfWeek
-      .print("week")
       .map({ week in
         client.subscribe(
           to: "workouts:getInRange",
@@ -53,7 +29,6 @@ class WorkoutsModel: ObservableObject {
           ]
         )
         .removeDuplicates()
-        .print("subscription: \(week)")
         .replaceError(with: [])
         .receive(on: DispatchQueue.main)
         .eraseToAnyPublisher()
@@ -77,6 +52,30 @@ class WorkoutsModel: ObservableObject {
     selectedStartOfWeek = calendar.date(
       byAdding: .day, value: -7, to: selectedStartOfWeek)!
   }
+}
+
+/// Keeps a map of Calendar component .weekday values to the number of days to subtract to reach
+/// the most recent Monday.
+private let dayTranslation = [1: -6, 2: 0, 3: -1, 4: -2, 5: -3, 6: -4, 7: -5]
+
+enum Day: CaseIterable, Identifiable {
+  var id: Self {
+    self
+  }
+
+  case monday
+  case tuesday
+  case wednesday
+  case thursday
+  case friday
+  case saturday
+  case sunday
+}
+
+var calendar: Calendar {
+  var calendar = Calendar.current
+  calendar.timeZone = TimeZone(abbreviation: "UTC")!
+  return calendar
 }
 
 extension Date {

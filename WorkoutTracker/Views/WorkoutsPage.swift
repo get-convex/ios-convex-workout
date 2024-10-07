@@ -33,20 +33,24 @@ struct WorkoutsPage: View {
 
   var body: some View {
     NavigationStack(path: $navigationModel.path) {
-      VStack {
-        WorkoutDateSelector()
-        WorkoutCalendar()
-        WorkoutList()
-        Button(action: navigationModel.openEditor) {
-          Text("Add Workout")
-        }.padding()
-      }.navigationDestination(
-        for: SubPages.self,
-        destination: { _ in
-          WorkoutEditorPage()
+      Color.workoutBackground
+        .ignoresSafeArea()
+        .overlay {
+          VStack {
+            WorkoutDateSelector()
+            WorkoutCalendar()
+            WorkoutList()
+            Button(action: navigationModel.openEditor) {
+              Text("Add Workout")
+            }.padding()
+          }.navigationDestination(
+            for: SubPages.self,
+            destination: { _ in
+              WorkoutEditorPage()
+            }
+          )
+          .navigationTitle("Workouts")
         }
-      )
-      .navigationTitle("Workouts")
     }.environmentObject(workoutsModel)
       .environmentObject(navigationModel)
   }
@@ -109,8 +113,9 @@ struct WorkoutList: View {
               Text("\(duration) min\(duration > 1 ? "s" : "")")
             }
           }
-        }
+        }.listRowBackground(Color.workoutForeground)
       }
     }
+    .scrollContentBackground(.hidden)
   }
 }
