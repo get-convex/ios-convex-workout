@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/get-convex/convex-swift",
       "state" : {
-        "revision" : "0c224818b6dac18ec66646a5b31efb978818803e",
-        "version" : "0.5.0"
+        "revision" : "78d1ada04309de9ab48d01444801a565bf0bde09",
+        "version" : "0.5.2"
       }
     },
     {
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "1e153ef009969543191970c66b7c60163c0b4a65",
         "version" : "3.2.0"
+      }
+    },
+    {
+      "identity" : "packagebuildinfo",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/DimaRU/PackageBuildInfo",
+      "state" : {
+        "revision" : "e61ce060c9a25594db2e1477b7202a4d015e255d",
+        "version" : "1.0.2"
       }
     },
     {
