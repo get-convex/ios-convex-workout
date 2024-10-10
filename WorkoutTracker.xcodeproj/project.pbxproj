@@ -31,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA8C9E6A2CB871E70017676F /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AAD575C02CA3172C00BFCAEF /* WorkoutTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorkoutTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAD575D02CA3172F00BFCAEF /* WorkoutTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorkoutTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAD575DA2CA3172F00BFCAEF /* WorkoutTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorkoutTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +100,7 @@
 		AAD575B72CA3172C00BFCAEF = {
 			isa = PBXGroup;
 			children = (
+				AA8C9E6A2CB871E70017676F /* README.md */,
 				AAD575C22CA3172C00BFCAEF /* WorkoutTracker */,
 				AAD575D32CA3172F00BFCAEF /* WorkoutTrackerTests */,
 				AAD575DD2CA3172F00BFCAEF /* WorkoutTrackerUITests */,
