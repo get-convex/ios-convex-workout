@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/get-convex/convex-swift",
       "state" : {
-        "revision" : "249efad96519f376f940072703ea5340c9abf70b",
-        "version" : "0.5.3"
+        "revision" : "764d0d09256155fa011d162d22fd51ecd7e5383c",
+        "version" : "0.5.4"
       }
     },
     {
