@@ -64,3 +64,10 @@ fastlane/test_output
 # Deployment-specific config that shouldn't be checked in.
 Auth0.plist
 ConvexEnv.swift
+
+.env.local
+/node_modules
+
+.DS_Store
+**/.DS_Store
+

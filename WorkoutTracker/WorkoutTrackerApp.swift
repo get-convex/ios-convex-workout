@@ -10,10 +10,13 @@ import ConvexMobile
 import SwiftUI
 
 let client = ConvexClientWithAuth(
-  deploymentUrl: ConvexEnv.deploymentUrl, authProvider: Auth0Provider(enableCachedLogins: true))
+  deploymentUrl: ConvexEnv.deploymentUrl, authProvider: Auth0Provider())
 
 @main
 struct WorkoutTrackerApp: App {
+  init() {
+    initConvexLogging()
+  }
   var body: some Scene {
     WindowGroup {
       LandingPage()
